@@ -8,6 +8,8 @@
         color: #a50515;
         font-weight: bold;
         cursor: pointer;
+        letter-spacing: 2px;
+        font-size: 1.5rem;
     }
 
     .logo:hover {
