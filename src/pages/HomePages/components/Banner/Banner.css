@@ -22,8 +22,25 @@
     justify-content: center;
     height: 100%;
     padding: 2rem;
+    overflow: hidden;
 
     >* {
         z-index: 2;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .banner {
+        height: 250px;
+    }
+
+    .banner::before {
+        height: 250px;
+    }
+
+    .banner-text-area {
+        width: 90%;
+        font-size: 0.8rem;
+        padding: 0.5rem;
     }
 }
