@@ -8,10 +8,10 @@ const MovieCard = ({ movie, key }) => {
 
   function showGenre(genreIdList) {
     // 장르데이터가 없으면 차라리 안보여주기
-    if (!genreData) return {};
+    if (!genreData) return [];
 
-    const genreNameList = genreIdList.map((id) => {
-      const genreObject = genreData.find((genre) => genre.id === id);
+    const genreNameList = genreIdList?.map((id) => {
+      const genreObject = genreData?.find((genre) => genre.id == id);
       return genreObject.name;
     });
 
@@ -31,7 +31,7 @@ const MovieCard = ({ movie, key }) => {
       <div className="overlay">
         <h3 className="movie_title">{movie.title}</h3>
         <div className="movie_genre_ids">
-          {showGenre(movie.genre_ids).map((id) => (
+          {showGenre(movie?.genre_ids).map((id) => (
             <Badge bg="danger">{id}</Badge>
           ))}
         </div>
