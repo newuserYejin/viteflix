@@ -1,0 +1,17 @@
+.carouselContainer {
+    background-color: black;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+.carousel-container {
+    overflow: hidden;
+    height: 440px;
+    background-color: black;
+}
+
+@media screen and (max-width : 768px) {
+    .carousel-container {
+        height: 300px;
+    }
+}

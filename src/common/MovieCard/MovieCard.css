@@ -22,15 +22,21 @@
     justify-content: end;
     align-items: start;
     gap: 15px;
+
+    overflow: hidden;
 }
 
 .movie_title {
     font-size: 1.2em;
+    word-break: keep-all;
 }
 
 .movie_genre_ids {
     display: flex;
+    flex-wrap: wrap;
     gap: 5px;
+
+
 }
 
 .movie_info {
@@ -55,4 +61,23 @@
 .movie-card:hover {
     transform: scale(1.2) translateZ(20px);
     z-index: 2;
+}
+
+@media screen and (max-width : 768px) {
+    .movie-card {
+        width: 150px;
+        height: 230px;
+    }
+
+    .movie_title {
+        font-size: 0.8em;
+    }
+
+    .movie_info {
+
+        >div {
+            padding: 5px 8px;
+            font-size: 0.7rem;
+        }
+    }
 }
