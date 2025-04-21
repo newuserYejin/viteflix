@@ -17,7 +17,7 @@ const AppLayout = () => {
         // className="bg-body-tertiary"
       >
         <Container fluid>
-          <Navbar.Brand href="#" className="logo">
+          <Navbar.Brand href="/" className="logo">
             NETFLIX
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
