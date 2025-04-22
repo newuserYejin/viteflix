@@ -19,6 +19,8 @@ const MoviePage = () => {
     page,
   });
 
+  console.log("data : ", data);
+
   const handlePageClick = ({ selected }) => {
     setPage(selected + 1);
   };
@@ -63,38 +65,53 @@ const MoviePage = () => {
             />
           </div>
         </Col>
-        <Col md={8} xs={12}>
-          <Row>
-            {data?.results.map((movie, index) => (
-              <Col key={index} md={4} xs={6}>
-                <MovieCard movie={movie} />
-              </Col>
-            ))}
-          </Row>
-          <Row>
-            <ReactPaginate
-              nextLabel=">"
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={3}
-              marginPagesDisplayed={2}
-              pageCount={data?.total_pages} // 전체 페이지 몇 개?
-              previousLabel="<"
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              previousLinkClassName="page-link"
-              nextClassName="page-item"
-              nextLinkClassName="page-link"
-              breakLabel="..."
-              breakClassName="page-item"
-              breakLinkClassName="page-link"
-              containerClassName="pagination"
-              activeClassName="active"
-              renderOnZeroPageCount={null}
-              forcePage={page - 1}
-            />
-          </Row>
-        </Col>
+        {data?.results.length > 0 && (
+          <Col md={8} xs={12}>
+            <Row>
+              {data?.results.map((movie, index) => (
+                <Col key={index} md={4} xs={6}>
+                  <MovieCard movie={movie} />
+                </Col>
+              ))}
+            </Row>
+            <Row>
+              <ReactPaginate
+                nextLabel=">"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={2}
+                pageCount={data?.total_pages} // 전체 페이지 몇 개?
+                previousLabel="<"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                renderOnZeroPageCount={null}
+                forcePage={page - 1}
+              />
+            </Row>
+          </Col>
+        )}
+        {data?.results.length == 0 && (
+          <Col
+            md={8}
+            xs={12}
+            style={{
+              fontSize: "1.2rem",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            검색 결과가 없습니다.
+          </Col>
+        )}
       </Row>
     </Container>
   );
