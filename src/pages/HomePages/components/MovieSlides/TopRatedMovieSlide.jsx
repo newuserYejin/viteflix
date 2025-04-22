@@ -18,7 +18,8 @@ const TopRatedMovieSlide = () => {
     <div>
       <MovieSlider
         title="Top Rated Movies"
-        movies={data?.results}
+        // movies={data?.results}
+        movies={Array.isArray(data?.results) ? data.results : []}
         responsive={responsive}
       />
     </div>
