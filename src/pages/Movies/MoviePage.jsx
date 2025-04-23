@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovies";
 import { useSearchParams } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
@@ -18,6 +18,10 @@ const MoviePage = () => {
     keyword,
     page,
   });
+
+  useEffect(() => {
+    setPage(1);
+  }, [keyword]);
 
   console.log("data : ", data);
 
@@ -80,7 +84,7 @@ const MoviePage = () => {
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={3}
                 marginPagesDisplayed={2}
-                pageCount={data?.total_pages} // 전체 페이지 몇 개?
+                pageCount={data?.total_pages > 500 ? 500 : data.total_pages} // 전체 페이지 몇 개?
                 previousLabel="<"
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
