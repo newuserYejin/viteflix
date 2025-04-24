@@ -9,6 +9,7 @@ export const useMovieGenreQuery = () => {
     return useQuery({
         queryKey: ['movie-genre'],
         queryFn: fetchMovieGenre,
+        suspense: true,
         select: (result) => result.data.genres
     })
 }

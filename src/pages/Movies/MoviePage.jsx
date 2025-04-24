@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchMovieQuery } from "../../hooks/useSearchMovies";
 import { useSearchParams } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
 import MovieCard from "../../common/MovieCard/MovieCard";
 import ReactPaginate from "react-paginate";
 import "./MoviePage.css";
+import { useMovieGenreQuery } from "../../hooks/useMovieGenre";
+import LodingSpinner from "../../common/LodingSpinner/LodingSpinner";
 
 // nav바에서 클릭해서 온 경우 => popular Movie
 // 검색해서 올 경우 => keyword와 관련 된걸로 출력
@@ -13,14 +15,24 @@ const MoviePage = () => {
   const [query, setQuery] = useSearchParams();
   const [page, setPage] = useState(1);
   const keyword = query.get("q");
+  const [genre, setGenre] = useState();
 
   const { data, isLoading, isError, error } = useSearchMovieQuery({
     keyword,
     page,
+    genre,
   });
+
+  const {
+    data: genreData,
+    isLoading: genreLoading,
+    isError: genreIsError,
+    error: genreError,
+  } = useMovieGenreQuery();
 
   useEffect(() => {
     setPage(1);
+    setGenre();
   }, [keyword]);
 
   console.log("data : ", data);
@@ -37,6 +49,12 @@ const MoviePage = () => {
     return <h1>{error.message}</h1>;
   }
 
+  useEffect(() => {
+    console.log("genre : ", genre);
+    query.set("q", "");
+    setPage(1);
+  }, [genre]);
+
   return (
     <Container className="moviePageContainer">
       <Row>
@@ -51,22 +69,28 @@ const MoviePage = () => {
               gap: "10px",
             }}
           >
-            <input
-              type="text"
-              style={{
-                background: "none",
-                border: "solid 2px darkred",
-                borderRadius: "10px",
-              }}
-            />
-            <input
-              type="text"
-              style={{
-                background: "none",
-                border: "solid 2px darkred",
-                borderRadius: "10px",
-              }}
-            />
+            <Suspense fallback={<LodingSpinner />}>
+              <select
+                className="genreSelect"
+                value={genre}
+                onChange={(event) => setGenre(event.target.value)}
+              >
+                {genreData?.map((item) => (
+                  <option className="genreOption" value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+
+              <select className="genreSelect">
+                <option value="up" className="genreOption">
+                  별점 순
+                </option>
+                <option value="up" className="genreOption">
+                  인기 순
+                </option>
+              </select>
+            </Suspense>
           </div>
         </Col>
         {data?.results.length > 0 && (

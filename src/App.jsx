@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, useState } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router";
 import AppLayout from "./layout/AppLayout";
@@ -7,6 +7,8 @@ import MoviePage from "./pages/Movies/MoviePage";
 import MovieDetailPage from "./pages/MovieDetail/MovieDetailPage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import "bootstrap/dist/css/bootstrap.min.css";
+
+// const MoviePage = lazy(() => import("./pages/HomePages/HomPage"));
 
 function App() {
   return (

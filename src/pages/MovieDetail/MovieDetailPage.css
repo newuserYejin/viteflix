@@ -1,0 +1,90 @@
+.movie_posterBox {
+    position: relative;
+
+    .movie_poster {
+        width: 100%;
+        position: sticky;
+        top: 0;
+    }
+}
+
+.movieInfoBox {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+
+    gap: 10px;
+
+    .speakLan {
+        display: flex;
+        gap: 10px;
+
+        align-items: center;
+
+        >div {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: darkred;
+            color: white;
+        }
+    }
+
+
+    .movieBig_info {
+
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 10px;
+
+        .movieTitle {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+    }
+
+    .movieOverview {
+        font-size: 0.9rem;
+        color: rgb(213, 212, 212);
+        padding: 1rem 0;
+        border-top: solid 1px white;
+        border-bottom: solid 1px white;
+    }
+
+    .movieRowData {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .rowLabel {
+            background-color: darkred;
+            font-weight: bold;
+            min-width: 30%;
+            padding: 5px 0;
+            text-align: center;
+            border-radius: 30px;
+        }
+    }
+}
+
+
+.reviewContainerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .reviewContent {
+        overflow: hidden;
+    }
+
+    .reviewBox {
+        border: solid 1px darkred;
+        padding: 10px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: max-height 0.3s ease;
+    }
+}

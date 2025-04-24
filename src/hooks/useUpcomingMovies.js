@@ -9,6 +9,7 @@ export const useUpcomingMovies = () => {
     return useQuery({
         queryKey: ['movie-upcoming'],
         queryFn: fetchUpcomingMovie,
+        suspense: true,
         select: (result) => result.data
     })
 }

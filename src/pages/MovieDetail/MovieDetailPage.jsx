@@ -1,7 +1,120 @@
-import React from "react";
+import React, { Suspense, useState } from "react";
+import { useMovieDetail } from "../../hooks/useMovieDetail";
+import { useParams } from "react-router";
+import { Col, Container, Row } from "react-bootstrap";
+import "./movieDetailPage.css";
+import { useMovieReview } from "../../hooks/useMovieReview";
+import LodingSpinner from "../../common/LodingSpinner/LodingSpinner";
 
 const MovieDetailPage = () => {
-  return <div>MovieDetailPage</div>;
+  const { id } = useParams();
+  const {
+    data: movieDetail,
+    isLoading,
+    isError,
+    error,
+  } = useMovieDetail({ id });
+
+  const {
+    data: reviewData,
+    isLoading: reviewLoading,
+    isError: reviewIsError,
+    error: reviewError,
+  } = useMovieReview({ id });
+
+  const [expanded, setExpanded] = useState({});
+
+  return (
+    <Container>
+      <Suspense fallback={<LodingSpinner />}>
+        <Row>
+          {/* 영화 포스터 */}
+          <Col md={6} xs={12} className="movie_posterBox">
+            <img
+              className="movie_poster"
+              src={`https://media.themoviedb.org/t/p/w600_and_h900_bestv2/${movieDetail?.poster_path}`}
+              alt="포스터 이미지"
+            />
+          </Col>
+
+          {/* 영화 정보 */}
+          <Col md={6} xs={12} className="movieInfoBox">
+            <div className="speakLan">
+              <span>언어 지원 : </span>
+              {movieDetail?.spoken_languages.map((item) => (
+                <div>{item.english_name}</div>
+              ))}
+            </div>
+
+            <div className="movieBig_info">
+              <div className="movieTitle">{movieDetail?.title}</div>
+              <div>{movieDetail?.tagline ? movieDetail.tagline : null}</div>
+              <div>평점 : {movieDetail?.vote_average.toFixed(1)}</div>
+              <div>인기도 : {movieDetail?.popularity.toFixed(1)}</div>
+            </div>
+            <div className="movieOverview">{movieDetail?.overview}</div>
+
+            <div className="movieRowData">
+              <div className="rowLabel">에산</div>
+              <div className="rowValue">
+                {movieDetail?.budget?.toLocaleString()} 원
+              </div>
+            </div>
+
+            <div className="movieRowData">
+              <div className="rowLabel">수익</div>
+              <div className="rowValue">
+                {movieDetail?.revenue.toLocaleString()} 원
+              </div>
+            </div>
+
+            <div className="movieRowData">
+              <div className="rowLabel">개봉일</div>
+              <div className="rowValue">{movieDetail?.release_date}</div>
+            </div>
+
+            <div className="movieRowData">
+              <div className="rowLabel">상영 시간</div>
+              <div className="rowValue">{movieDetail?.runtime} 분</div>
+            </div>
+          </Col>
+        </Row>
+
+        {/* 댓글부분 */}
+        <Row style={{ marginTop: "1rem" }}>
+          <Col className="reviewContainerBox">
+            {reviewData?.results.map((item, index) => (
+              <div
+                className="reviewBox"
+                style={{
+                  maxHeight: expanded[index] ? "none" : "200px",
+                  overflow: "hidden",
+                }}
+              >
+                <div>{item.author}</div>
+                <div className="reviewContent">{item.content}</div>
+                <div>{item.updated_at.toLocaleString("ko-KR")}</div>
+
+                {item.content.length > 200 && (
+                  <button
+                    className="showMoreButton"
+                    onClick={() =>
+                      setExpanded((prev) => ({
+                        ...prev,
+                        [index]: !prev[index],
+                      }))
+                    }
+                  >
+                    {expanded[index] ? "접기" : "더보기"}
+                  </button>
+                )}
+              </div>
+            ))}
+          </Col>
+        </Row>
+      </Suspense>
+    </Container>
+  );
 };
 
 export default MovieDetailPage;
