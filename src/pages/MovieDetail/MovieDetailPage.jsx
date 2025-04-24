@@ -2,7 +2,6 @@ import React, { Suspense, useState } from "react";
 import { useMovieDetail } from "../../hooks/useMovieDetail";
 import { useParams } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
-import "./movieDetailPage.css";
 import { useMovieReview } from "../../hooks/useMovieReview";
 import LodingSpinner from "../../common/LodingSpinner/LodingSpinner";
 import "./movieDetailPage.css";
