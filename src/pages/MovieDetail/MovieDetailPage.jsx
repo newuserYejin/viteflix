@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
 import { useMovieReview } from "../../hooks/useMovieReview";
 import LodingSpinner from "../../common/LodingSpinner/LodingSpinner";
-import "./movieDetailPage.css";
+import "./MovieDetailPage.css";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
