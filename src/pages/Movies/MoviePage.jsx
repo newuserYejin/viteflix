@@ -16,6 +16,7 @@ const MoviePage = () => {
   const [page, setPage] = useState(1);
   const keyword = query.get("q");
   const [genre, setGenre] = useState();
+  const [orderBy, setOrderBy] = useState("");
 
   const { data, isLoading, isError, error } = useSearchMovieQuery({
     keyword,
@@ -36,6 +37,7 @@ const MoviePage = () => {
   }, [keyword]);
 
   console.log("data : ", data);
+  const [movies, setMovies] = useState([]);
 
   const handlePageClick = ({ selected }) => {
     setPage(selected + 1);
@@ -54,6 +56,34 @@ const MoviePage = () => {
     query.set("q", "");
     setPage(1);
   }, [genre]);
+
+  useEffect(() => {
+    if (!orderBy) return;
+
+    if (orderBy != "") {
+      console.log("orderBy : ", orderBy);
+
+      if (orderBy == "star") {
+        const sorted = [...data.results].sort(
+          (a, b) => b.vote_average - a.vote_average
+        );
+        setMovies(sorted);
+      }
+
+      if (orderBy === "popular") {
+        const sorted = [...data.results].sort(
+          (a, b) => b.popularity - a.popularity
+        );
+        setMovies(sorted);
+      }
+    }
+  }, [orderBy]);
+
+  useEffect(() => {
+    if (data?.results) {
+      setMovies(data.results);
+    }
+  }, [data]);
 
   return (
     <Container className="moviePageContainer">
@@ -75,6 +105,7 @@ const MoviePage = () => {
                 value={genre}
                 onChange={(event) => setGenre(event.target.value)}
               >
+                <option value="">선택</option>
                 {genreData?.map((item) => (
                   <option className="genreOption" value={item.id}>
                     {item.name}
@@ -82,21 +113,26 @@ const MoviePage = () => {
                 ))}
               </select>
 
-              <select className="genreSelect">
-                <option value="up" className="genreOption">
+              <select
+                className="genreSelect"
+                value={orderBy}
+                onChange={(event) => setOrderBy(event.target.value)}
+              >
+                <option value="">선택</option>
+                <option value="star" className="genreOption">
                   별점 순
                 </option>
-                <option value="up" className="genreOption">
+                <option value="popular" className="genreOption">
                   인기 순
                 </option>
               </select>
             </Suspense>
           </div>
         </Col>
-        {data?.results.length > 0 && (
+        {movies.length > 0 && (
           <Col md={8} xs={12}>
             <Row>
-              {data?.results.map((movie, index) => (
+              {movies.map((movie, index) => (
                 <Col key={index} md={4} xs={6}>
                   <MovieCard movie={movie} />
                 </Col>
@@ -127,7 +163,7 @@ const MoviePage = () => {
             </Row>
           </Col>
         )}
-        {data?.results.length == 0 && (
+        {movies.length == 0 && (
           <Col
             md={8}
             xs={12}

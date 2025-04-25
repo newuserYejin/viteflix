@@ -1,10 +1,12 @@
 import React, { Suspense, useState } from "react";
 import { useMovieDetail } from "../../hooks/useMovieDetail";
 import { useParams } from "react-router";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useMovieReview } from "../../hooks/useMovieReview";
 import LodingSpinner from "../../common/LodingSpinner/LodingSpinner";
 import "./MovieDetailPage.css";
+import YouTube from "react-youtube";
+import { useMovieTrailer } from "../../hooks/useMovieTrailer";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -22,7 +24,60 @@ const MovieDetailPage = () => {
     error: reviewError,
   } = useMovieReview({ id });
 
+  const {
+    data: trailerData,
+    isLoading: trailerIsLoading,
+    isError: trailerIsError,
+    error: trailerError,
+  } = useMovieTrailer({ id });
+
   const [expanded, setExpanded] = useState({});
+  const [modalShow, setModalShow] = useState(false);
+
+  console.log("movieDetail : ", movieDetail);
+  console.log("trailerData : ", trailerData);
+
+  function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {movieDetail?.title} 예고편
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <YouTube
+            videoId={trailerData?.key}
+            opts={{
+              width: "100%",
+              height: "300",
+              playerVars: {
+                // autoplay: 1,
+              },
+            }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={props.onHide}
+            style={{
+              background: "none",
+              color: "darkred",
+              border: "solid 1px darkred",
+            }}
+            className="close_modal"
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   return (
     <Container>
@@ -77,6 +132,10 @@ const MovieDetailPage = () => {
               <div className="rowLabel">상영 시간</div>
               <div className="rowValue">{movieDetail?.runtime} 분</div>
             </div>
+
+            <button className="review_btn" onClick={() => setModalShow(true)}>
+              예고편 보기
+            </button>
           </Col>
         </Row>
 
@@ -113,6 +172,11 @@ const MovieDetailPage = () => {
           </Col>
         </Row>
       </Suspense>
+
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </Container>
   );
 };

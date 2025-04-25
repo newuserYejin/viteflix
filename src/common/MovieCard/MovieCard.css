@@ -63,6 +63,11 @@
     z-index: 2;
 }
 
+.close_modal:hover {
+    color: white !important;
+    background-color: darkred !important;
+}
+
 @media screen and (max-width : 768px) {
     .movie-card {
         width: 150px;

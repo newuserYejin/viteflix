@@ -66,6 +66,20 @@
             border-radius: 30px;
         }
     }
+
+    .review_btn {
+        background: none;
+        color: white;
+        border: solid 2px darkred;
+        padding: 5px 15px;
+        width: fit-content;
+        border-radius: 30px;
+        font-weight: bold;
+    }
+
+    .review_btn:hover {
+        background-color: darkred;
+    }
 }
 
 
